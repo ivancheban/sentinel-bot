@@ -5,5 +5,8 @@
   "main": "netlify/functions/bot.js",
   "dependencies": {
     "telegraf": "^4.12.2"
+  },
+  "scripts": {
+    "build": "echo 'No build step required'"
   }
 }
