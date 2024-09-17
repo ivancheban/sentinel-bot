@@ -1,12 +1,22 @@
 const { Telegraf } = require('telegraf');
 
-// Initialize the bot with your Telegram Bot Token
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
-// Store pending join requests
 const pendingRequests = new Map();
 
-// Handle new chat members
+// Handle /start command
+bot.command('start', (ctx) => {
+  ctx.reply('Welcome! This bot verifies new members. Use /test to simulate the join process.');
+});
+
+// Handle /test command
+bot.command('test', (ctx) => {
+  const userId = ctx.from.id;
+  pendingRequests.set(userId, ctx.chat.id);
+  ctx.reply('Simulating join request. Please complete the phrase:\n\n"Душу, тіло ми положим за ..."');
+});
+
+// Handle chat member updates (for actual group joins)
 bot.on('chat_member', async (ctx) => {
   const { old_chat_member, new_chat_member } = ctx.chatMember;
   
@@ -27,8 +37,14 @@ bot.on('message', async (ctx) => {
   
   if (chatId) {
     if (ctx.message.text.toLowerCase() === 'нашу свободу') {
-      await ctx.telegram.approveChatJoinRequest(chatId, userId);
-      await ctx.reply('Correct! You have been approved to join the group.');
+      if (chatId === ctx.chat.id) {
+        // This is a test scenario
+        await ctx.reply('Correct! In a real scenario, you would be approved to join the group.');
+      } else {
+        // This is a real join request
+        await ctx.telegram.approveChatJoinRequest(chatId, userId);
+        await ctx.reply('Correct! You have been approved to join the group.');
+      }
       pendingRequests.delete(userId);
     } else {
       await ctx.reply('Incorrect. Please try again.');
