@@ -7,6 +7,6 @@
     "telegraf": "^4.12.2"
   },
   "scripts": {
-    "build": "echo 'No build step required'"
+    "build": "echo 'Build step completed' && npm install"
   }
 }
