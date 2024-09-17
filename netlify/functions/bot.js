@@ -53,22 +53,10 @@ bot.on('message', async (ctx) => {
   }
 });
 
-// Log all updates
-bot.on('message', (ctx) => {
-  console.log('Received message update:', JSON.stringify(ctx.update, null, 2));
-});
-
-bot.on('chat_join_request', (ctx) => {
-  console.log('Received chat_join_request update:', JSON.stringify(ctx.update, null, 2));
-});
-
 // Export the handler function for Netlify
 exports.handler = async (event) => {
-  console.log('Received event:', JSON.stringify(event, null, 2));
   try {
-    const update = JSON.parse(event.body);
-    console.log('Parsed update:', JSON.stringify(update, null, 2));
-    await bot.handleUpdate(update);
+    await bot.handleUpdate(JSON.parse(event.body));
     return { statusCode: 200, body: 'OK' };
   } catch (e) {
     console.error('Error in Telegram bot:', e);

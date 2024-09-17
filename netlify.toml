@@ -1,9 +1,8 @@
 [build]
-  functions = "built-lambda"
-  command = "npm run build"
+  functions = "netlify/functions"
 
 [functions]
-  directory = "built-lambda"
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/api/*"

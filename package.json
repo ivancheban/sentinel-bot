@@ -2,14 +2,8 @@
   "name": "telegram-bot",
   "version": "1.0.0",
   "description": "Telegram bot for group verification",
-  "main": "functions/bot.js",
-  "scripts": {
-    "build": "netlify-lambda build functions"
-  },
+  "main": "netlify/functions/bot.js",
   "dependencies": {
     "telegraf": "^4.12.2"
-  },
-  "devDependencies": {
-    "netlify-lambda": "^2.0.15"
   }
 }
